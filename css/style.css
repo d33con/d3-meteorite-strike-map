@@ -1,0 +1,49 @@
+body {
+  background: #ddd;
+  font-family: 'Titillium Web', sans-serif;
+  text-align: center;
+}
+
+#container {
+  background: #ddd;
+  padding: 20px 0;
+}
+
+#title {
+  font-size: 2.5em;
+  color: #000032;
+}
+
+#map {
+  margin: 20px auto;
+  width: 70%;
+}
+
+svg {
+  background-color: #000032;
+}
+
+path {
+  stroke: #43819E;
+  stroke-width: 0.25px;
+  fill: #262017;
+}
+
+div.tooltip {
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px -3px #ddd;
+  color: #43819E;
+  max-width: 200px;
+  height: auto;
+  pointer-events: none;
+  background: #fff;
+  padding: 10px;
+  font-size: 0.75em;
+  text-align: center;
+}
+
+div span {
+  font-size: 1.2em;
+  color: #000032;
+}
