@@ -1,6 +1,8 @@
 // map dimensions
 var width = parseInt(d3.select('#map').style('width'));
 var height = width * 0.6;
+
+// projection
 var projection = d3.geo.mercator()
                         .center([-10, 30])
                         .scale(250);
@@ -50,16 +52,16 @@ d3.json('data/world-110m.json', function (error, topology) {
         var color = ['#8C9275','#43819E','#5C1434'];
         
         // scale the size of the circles
-        var circleRScale = d3.scale.linear().range([1, 50]).clamp(true);
+        var circleRScale = d3.scale.linear().range([1, 75]).clamp(true);
         // color scale
-        var colorScale = d3.scale.quantize().range(color);
+        var colorScale = d3.scale.threshold().range(color);
         // opacity scale
         var opacityScale = d3.scale.linear().range([0.85, 0.5]).clamp(true);
         
         // circle size domain
         circleRScale.domain([1000, 5000000]);
         // color domain
-        colorScale.domain([0, 1000000]);
+        colorScale.domain([10000, 1000000]);
         // opacity domain
         opacityScale.domain([0, 5000000]);
         
@@ -68,7 +70,7 @@ d3.json('data/world-110m.json', function (error, topology) {
           .attr('class', 'tooltip')
           .style('opacity', 0);
   
-        //console.log(d3.max(data, function (d) { return +d.properties.mass; }));
+        // append the strike points
         g.selectAll('circle')
           .data(data)
           .enter()
@@ -88,6 +90,7 @@ d3.json('data/world-110m.json', function (error, topology) {
           .style('opacity', function (d) {
             return opacityScale(+d.properties.mass);
           })
+          // add the tooltip
           .on('mouseover', function (d) {
             
             var html = '';
