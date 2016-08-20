@@ -59,7 +59,7 @@ d3.json('data/world-110m.json', function (error, topology) {
         var opacityScale = d3.scale.linear().range([0.85, 0.5]).clamp(true);
 
         // circle size domain
-        circleRScale.domain([2000, 5000000]);
+        circleRScale.domain([1000, 5000000]);
         // color domain
         colorScale.domain([10000, 1000000]);
         // opacity domain
