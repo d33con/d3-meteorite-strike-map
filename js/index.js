@@ -22,54 +22,54 @@ var g = svg.append('g');
 // zoom & pan function
 var zoom = d3.behavior.zoom()
               .on('zoom', function () {
-                g.attr('transform', 'translate(' + 
+                g.attr('transform', 'translate(' +
                   d3.event.translate.join(',') + ')scale(' + d3.event.scale + ')');
                 g.selectAll('path')
                   .attr('d', path.projection(projection));
               });
-              
+
 svg.call(zoom);
 
 // load map
 d3.json('data/world-110m.json', function (error, topology) {
 
   if (error) throw 'error';
-  
+
   g.selectAll('path')
       .data(topojson.object(topology, topology.objects.countries)
     .geometries)
       .enter()
       .append('path')
       .attr('d', path);
-      
+
       // load strike data
       d3.json('data/meteorite-strike-data.json', function (error, data) {
-        
+
         if (error) throw 'error';
         data = data.features;
-        
+
         // colour buckets
         var color = ['#8C9275','#43819E','#5C1434'];
-        
+
         // scale the size of the circles
         var circleRScale = d3.scale.linear().range([1, 75]).clamp(true);
         // color scale
         var colorScale = d3.scale.threshold().range(color);
         // opacity scale
         var opacityScale = d3.scale.linear().range([0.85, 0.5]).clamp(true);
-        
+
         // circle size domain
-        circleRScale.domain([1000, 5000000]);
+        circleRScale.domain([2000, 5000000]);
         // color domain
         colorScale.domain([10000, 1000000]);
         // opacity domain
         opacityScale.domain([0, 5000000]);
-        
+
         //tooltip
         var tooltip = d3.select('#map').append('div')
           .attr('class', 'tooltip')
           .style('opacity', 0);
-  
+
         // append the strike points
         g.selectAll('circle')
           .data(data)
@@ -81,8 +81,8 @@ d3.json('data/world-110m.json', function (error, topology) {
           .attr('cy', function (d) {
             return projection([+d.properties.reclong, +d.properties.reclat])[1];
           })
-          .attr('r', function (d) { 
-            return circleRScale(+d.properties.mass); 
+          .attr('r', function (d) {
+            return circleRScale(+d.properties.mass);
           })
           .style('fill', function (d) {
             return colorScale(+d.properties.mass);
@@ -92,13 +92,13 @@ d3.json('data/world-110m.json', function (error, topology) {
           })
           // add the tooltip
           .on('mouseover', function (d) {
-            
+
             var html = '';
             html += '<div>Location: <span>' + d.properties.name + '</span></div>';
             html += '<div>Year: <span>' + d.properties.year.slice(0,4) + '</span></div>';
             html += '<div>Mass: <span>' + (d.properties.mass / 1000) + 'kg</span></div>';
             html += '<div>Type: <span>' + d.properties.recclass + '</span></div>';
-            
+
             tooltip.transition()
                     .duration(500)
                     .style('opacity', 0.95);
