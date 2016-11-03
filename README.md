@@ -1,4 +1,4 @@
-# d3-meteorite-strike-map
+# D3.js map showing meteorite strikes around the world
 
 A scrollable, zoomable world map of meteorite strikes for freeCodeCamp's 'Map data across the globe' project
 
